@@ -15,7 +15,7 @@ const urlShorten = async (req, res) => {
       return res
         .status(400)
         .send({ status: false, message: "Enter a valid longUrl" });
-        
+
     if (!/^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})?$/.test(longUrl))
       return res
         .status(400)
@@ -28,7 +28,7 @@ const urlShorten = async (req, res) => {
     //creating urlCode
     let short = shortid.generate().toLowerCase();
     
-    //checking if urlCode is unique and has only lower case letters
+    //checking if urlCode is unique
     while ((await urlModel.findOne({ urlCode: short }))) {
       console.log(short);
       short = shortid.generate().toLowerCase();
@@ -60,17 +60,16 @@ const getUrl = async (req, res) => {
         .status(400)
         .send({ status: false, message: "Please enter urlCode in params" });
 
-    if (!/^[a-z0-9]+$/.test(urlCode))
+    if (!shortid.isValid(urlCode))
       return res.status(400).send({
         status: false,
-        message: "Please enter urlCode in lowerCase only",
+        message: "Please enter a valid urlCode",
       });
 
-    let checkUrl = await urlModel.findOne({ urlCode: urlCode });
+    let checkUrl = await urlModel.findOne({ urlCode: urlCode.toLowerCase().trim() });
     if (!checkUrl)
       return res.status(404).send({ status: false, message: "URL not found" });
     res.status(302).redirect(checkUrl.longUrl)
-   // res.status(302).send(`URL found. Redirecting to ${checkUrl.longUrl}`);
   } catch (err) {
     res.status(500).send({ sattus: false, message: err.message });
   }
