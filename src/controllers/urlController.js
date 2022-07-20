@@ -1,25 +1,6 @@
 const shortid = require("shortid");
+const { GET_ASYNC, SETEX_ASYNC } = require("../../redis/redis");
 const urlModel = require("../models/urlModel");
-const { promisify } = require("util");
-const redis = require("redis");
-
-//Connecting to redis
-const redisClient = redis.createClient(
-  14674,
-  "redis-14674.c264.ap-south-1-1.ec2.cloud.redislabs.com",
-  { no_ready_check: true }
-);
-redisClient.auth("L0heTOscTdBVNsqnedJYGXuP83MEXWHx", function (err) {
-  if (err) throw err;
-});
-
-redisClient.on("connect", async function () {
-  console.log("Connected to Redis...");
-});
-
-//Promisifying and setting redis function
-const SET_ASYNC = promisify(redisClient.SETEX).bind(redisClient);
-const GET_ASYNC = promisify(redisClient.GET).bind(redisClient);
 
 //Request validation
 const isValidRequest = (value) => {
@@ -49,7 +30,8 @@ const urlShorten = async (req, res) => {
         .status(400)
         .send({ status: false, message: "Enter a valid longUrl" });    
 
-    if(!/^(http|https):/.test(req.body.longUrl))req.body.longUrl="https://"+req.body.longUrl;
+    if(!/^(http|https):/.test(req.body.longUrl))
+    req.body.longUrl="https://"+req.body.longUrl;
 
     let { longUrl } = req.body;
     longUrl=longUrl.trim()
@@ -71,7 +53,7 @@ const urlShorten = async (req, res) => {
     //Checking if long URL is already present in our DB
     let checkLongUrl = await urlModel.findOne({ longUrl: longUrl }).select({ _id: 0, longUrl: 1, urlCode: 1, shortUrl: 1 });
     if (checkLongUrl){
-      await SET_ASYNC(`${longUrl}`,600, JSON.stringify(checkLongUrl));
+      await SETEX_ASYNC(`${longUrl}`,600, JSON.stringify(checkLongUrl));
       return res.status(200).send({ status: true, data: checkLongUrl });      
     }
 
@@ -94,7 +76,7 @@ const urlShorten = async (req, res) => {
       urlCode: savedData.urlCode
     };
 
-    await SET_ASYNC(`${longUrl}`,600, JSON.stringify(data));
+    await SETEX_ASYNC(`${longUrl}`,600, JSON.stringify(data));
 
     res.status(201).send({ status: true, data: data });
   } catch (err) {
@@ -135,7 +117,7 @@ const getUrl = async (req, res) => {
     if (!checkUrl)
       return res.status(404).send({ status: false, message: "URL not found" });
     
-    await SET_ASYNC(`${urlCode}`,60, checkUrl.longUrl);
+    await SETEX_ASYNC(`${urlCode}`,60, checkUrl.longUrl);
    // console.log("db call")
     res.status(302).redirect(checkUrl.longUrl);
 
