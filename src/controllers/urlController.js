@@ -5,11 +5,11 @@ const redis = require("redis");
 
 //Connecting to redis
 const redisClient = redis.createClient(
-  13190,
-  "redis-13190.c301.ap-south-1-1.ec2.cloud.redislabs.com",
+  14674,
+  "redis-14674.c264.ap-south-1-1.ec2.cloud.redislabs.com",
   { no_ready_check: true }
 );
-redisClient.auth("gkiOIPkytPI3ADi14jHMSWkZEo2J5TDG", function (err) {
+redisClient.auth("L0heTOscTdBVNsqnedJYGXuP83MEXWHx", function (err) {
   if (err) throw err;
 });
 
@@ -27,6 +27,7 @@ const isValidRequest = (value) => {
   if (typeof value != "string" || value.trim().length == 0) return false;
   return true;
 };
+
 ///////////////////////////////////////////////////////CREATE SHORT URL API//////////////////////////////////////////////////////////////
 
 const urlShorten = async (req, res) => {
@@ -90,6 +91,7 @@ const urlShorten = async (req, res) => {
 };
 
 ///////////////////////////////////////////////////////GET URL API//////////////////////////////////////////////////////////////
+
 const getUrl = async (req, res) => {
   try {
     let { urlCode } = req.params;

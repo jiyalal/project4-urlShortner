@@ -1,17 +1,18 @@
 {
-  "name": "urlshortnergroupx",
+  "name": "urlshortner",
   "version": "1.0.0",
-  "description": "## Scalable URL Shortner Project Requirement",
+  "description": "URL Shortner Project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node src/index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DonIndra95/urlShortnerGroupX.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Indrashish Roy",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/DonIndra95/urlShortnerGroupX/issues"
@@ -22,7 +23,6 @@
     "express": "^4.18.1",
     "mongoose": "^6.4.4",
     "redis": "^3.1.2",
-    "shortid": "^2.2.16",
-    "util": "^0.12.4"
+    "shortid": "^2.2.16"    
   }
 }
