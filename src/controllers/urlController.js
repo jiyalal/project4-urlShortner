@@ -1,4 +1,5 @@
 const shortid = require("shortid");
+const isUrlValid = require('url-validation');
 const { GET_ASYNC, SETEX_ASYNC } = require("../redis/redis");
 const urlModel = require("../models/urlModel");
 
@@ -37,11 +38,7 @@ const urlShorten = async (req, res) => {
 
     let { longUrl } = req.body;
 
-    if (
-      !/^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})?$/.test(
-        longUrl
-      )
-    )
+    if (!isUrlValid(longUrl))
       return res
         .status(400)
         .send({ status: false, message: `'${longUrl}' is not a valid URL` });
