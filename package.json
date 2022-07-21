@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DonIndra95/urlShortnerGroupX.git"
+    "url": "git+https://github.com/DonIndra95/urlShortnerGroup63.git"
   },
   "keywords": [],
-  "author": "Indrashish Roy",
+  "author": "Himanshu Supare,Jiya Lal,Guddati Lok Santosh Kumar,Indrashish Roy",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DonIndra95/urlShortnerGroupX/issues"
+    "url": "https://github.com/DonIndra95/urlShortnerGroup63/issues"
   },
-  "homepage": "https://github.com/DonIndra95/urlShortnerGroupX#readme",
+  "homepage": "https://github.com/DonIndra95/urlShortnerGroup63#readme",
   "dependencies": {
     "body-parser": "^1.20.0",
     "express": "^4.18.1",
