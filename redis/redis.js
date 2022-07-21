@@ -14,9 +14,9 @@ redisClient.auth("L0heTOscTdBVNsqnedJYGXuP83MEXWHx", function (err) {
 redisClient.on("connect", async function () {
   console.log("Connected to Redis...");
 });
-  
+
 const SET_ASYNC = promisify(redisClient.SET).bind(redisClient);
 const GET_ASYNC = promisify(redisClient.GET).bind(redisClient);
 const SETEX_ASYNC = promisify(redisClient.SETEX).bind(redisClient);
 
-module.exports={SET_ASYNC,GET_ASYNC,SETEX_ASYNC}
+module.exports = { SET_ASYNC, GET_ASYNC, SETEX_ASYNC };

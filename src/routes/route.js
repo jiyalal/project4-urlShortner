@@ -7,7 +7,7 @@ router.post("/url/shorten", urlShorten);
 router.get("/:urlCode", getUrl);
 
 router.all("/**", (req, res) => {
-  res.status(400).send({ status: false, message: "Invalid request" });
+  res.status(404).send({ status: false, message: "Page not found" });
 });
 
 module.exports = router;
